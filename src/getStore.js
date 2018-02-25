@@ -1,15 +1,18 @@
-import { createStore } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
 import { users } from './../server/db';
 import { getDefaultState } from './../server/getDefaultState';
 import { initializeDB } from './../server/db/initializeDB';
+import { fromJS } from 'immutable';
+import { createLogger } from 'redux-logger';
 
 initializeDB();
+import { reducer } from './reducers';
+
 const currentUser = users[0];
-const defaultState = getDefaultState(currentUser);
+const defaultState = fromJS(getDefaultState(currentUser));
+const store = createStore(reducer, defaultState, applyMiddleware(createLogger({
+    stateTransformer: state => state.toJS()
+})));
 
-
-const reducer = state => state;
-
-const store = createStore(reducer, defaultState);
-
+console.log(store.getState().toJS());
 export const getStore = () => store;
