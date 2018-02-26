@@ -3,7 +3,7 @@ export const createSocketMiddleware = io => config => {
     return store => next => action => {
         for (const key in config) {
             socket.on(key, data => {
-                config[key](data);
+                store.dispatch(config[key](data));
             });
         }
         let result = next(action);

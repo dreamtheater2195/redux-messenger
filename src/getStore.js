@@ -2,6 +2,7 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import { createSocketMiddleware } from './socketMiddleware';
 import { users } from './../server/db';
 import { getDefaultState } from './../server/getDefaultState';
+import { getPreloadedState } from './getPreloadedState';
 import { initializeDB } from './../server/db/initializeDB';
 import { fromJS } from 'immutable';
 import { createLogger } from 'redux-logger';
@@ -26,9 +27,6 @@ const enhancer = compose(
 );
 
 initializeDB();
-
-const currentUser = users[0];
-const defaultState = fromJS(getDefaultState(currentUser));
-const store = createStore(reducer, defaultState, enhancer);
+const store = createStore(reducer, getPreloadedState(), enhancer);
 
 export const getStore = () => store;

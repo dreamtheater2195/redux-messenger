@@ -1,19 +1,16 @@
 import React from 'react';
 import reactDOM from 'react-dom'
 import { getStore } from './getStore';
+import { Provider } from 'react-redux';
 import { App } from './App';
-import { OFFLINE, updateStatus } from './actions';
 
 const store = getStore();
 
-const Main = ({ state }) => (
-    <div>
-        <h1>
-            Welcome, {state.get(`currentUser`).get(`name`)}
-        </h1>
+const Main = () => (
+    <Provider store={store}>
         <App />
-    </div>
-);
+    </Provider>
+)
 
 const render = (store) => {
     reactDOM.render(
@@ -25,5 +22,4 @@ const render = (store) => {
 
 render(store);
 
-const action = updateStatus(OFFLINE);
-store.dispatch(action);
+console.log(store.getState().toJS());

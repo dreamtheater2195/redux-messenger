@@ -2,14 +2,16 @@ import http from 'http';
 import express from 'express';
 import cors from 'cors';
 import webpack from 'webpack';
-import webpackConfig from './../webpack.config'
+import webpackConfig from './../webpack.config';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from "webpack-hot-middleware";
 import socketIO from 'socket.io';
 import { simulateActivity } from './simulateActivity';
 import { channels } from './db/Channel';
 import { users } from './db/User';
-
+import { getDefaultState } from './getDefaultState';
+import { initializeDB } from './db/initializeDB';
+import { handleRender } from './serverRenderMiddleware';
 const compiler = webpack(webpackConfig);
 
 let app = express();
@@ -27,9 +29,6 @@ app.use(webpackHotMiddleware(compiler, {
     'path': '/__webpack_hmr',
     'heartbeat': 10 * 1000
 }));
-
-import { getDefaultState } from './getDefaultState'
-import { initializeDB } from './db/initializeDB';
 
 initializeDB();
 const currentUser = users[0];
@@ -105,8 +104,9 @@ app.use('/input/submit/:userID/:channelID/:messageID/:input', ({ params: { userI
     res.status(300).send();
 });
 
-app.use(express.static('public'));
 app.use(express.static('public/css'));
+
+app.use('/', handleRender(() => getDefaultState(currentUser)));
 
 const port = 9000;
 server.listen(port, () => {
