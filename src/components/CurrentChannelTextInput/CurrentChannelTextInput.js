@@ -20,7 +20,7 @@ const CurrentChannelTextInput = ({ text = "", submitMessage, updateText, activeC
                         disabled={fetchStatus !== FETCHED || userStatus === OFFLINE}
                     />
                     <span className="input-group-btn">
-                        <button className={buttonClass} type="button">Submit</button>
+                        <button className={buttonClass} type="submit">Submit</button>
                     </span>
                 </div>
             </form>
