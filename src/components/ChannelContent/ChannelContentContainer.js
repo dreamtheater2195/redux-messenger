@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import ChannelContent from './ChannelContent';
 import { connect } from 'react-redux';
+import { activeChannelSelector } from './../../selectors';
 
 const mapStateToProps = (state) => {
     const channels = state.get(`channels`);
-    const activeChannel = state.get(`activeChannel`);
-    const channel = channels.find(channel => channel.get(`id`) === activeChannel);
+    const channel = activeChannelSelector(state);
 
     return {
         messages: channel.get(`messages`),
@@ -15,6 +15,8 @@ const mapStateToProps = (state) => {
     }
 };
 
-const mapDispatchToProps = (dispatch) => ({});
+const mapDispatchToProps = (dispatch) => ({
+
+});
 
 export const ChannelContentContainer = connect(mapStateToProps, mapDispatchToProps)(ChannelContent);

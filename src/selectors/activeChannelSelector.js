@@ -4,6 +4,6 @@ export const activeChannelSelector = createSelector(
     state => state.get(`activeChannel`),
     state => state.get(`channels`),
     (activeChannel, channels) => {
-        return channels.find(channel => chanel.get(`id`) === activeChannel)
+        return channels.find(channel => channel.get(`id`) === activeChannel)
     }
 );
