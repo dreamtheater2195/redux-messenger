@@ -9,7 +9,9 @@ import { RECEIVE_MESSAGE } from './actions'
 import { reducer } from './reducers';
 import thunk from 'redux-thunk';
 import { initSagas } from './initSagas';
-
+import { persistState } from 'redux-devtools';
+import { DevTools } from './components';
+import { getDebugSessionKey } from './utility';
 //socket middleware
 const io = window.io;
 const socketConfigOut = {
@@ -36,11 +38,22 @@ const logger = createLogger({
 const sagaMiddleware = createSagaMiddleware();
 
 const enhancer = compose(
-    applyMiddleware(sagaMiddleware, thunk, socketMiddleware, logger)
+    applyMiddleware(
+        sagaMiddleware,
+        thunk,
+        socketMiddleware,
+        logger
+    ),
+    DevTools.instrument(),
+    persistState(getDebugSessionKey())
 );
 
 initializeDB();
-const store = createStore(reducer, getPreloadedState(), enhancer);
+const store = createStore(
+    reducer,
+    getPreloadedState(),
+    enhancer
+);
 
 const socket = io();
 for (const key in socketConfigIn) {
