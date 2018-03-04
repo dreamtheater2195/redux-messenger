@@ -21,5 +21,3 @@ const render = (store) => {
 };
 
 render(store);
-
-console.log(store.getState().toJS());

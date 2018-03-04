@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "babel-node server/server.js",
-    "dev": "nodemon --watch server/**/* --exec babel-node --inspect server/server.js"
+    "dev": "nodemon --watch server/**/* --watch components/**/* --exec babel-node --inspect server/server.js"
   },
   "devDependencies": {
     "babel-cli": "^6.24.1",
@@ -17,6 +17,9 @@
     "babel-preset-react": "^6.23.0",
     "babel-regenerator-runtime": "^6.5.0",
     "nodemon": "^1.11.0",
+    "redux-devtools": "^3.3.2",
+    "redux-devtools-dock-monitor": "^1.1.1",
+    "redux-devtools-log-monitor": "^1.2.0",
     "webpack": "^1.13.3",
     "webpack-dev-middleware": "^1.10.1",
     "webpack-dev-server": "^1.16.2",
@@ -35,6 +38,7 @@
     "react-redux": "^5.0.4",
     "redux": "^3.6.0",
     "redux-logger": "^3.0.1",
+    "redux-saga": "^0.14.3",
     "redux-thunk": "^2.2.0",
     "reselect": "^3.0.0",
     "socket.io": "^2.0.4"

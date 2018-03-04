@@ -1,6 +1,27 @@
 const webpack = require('webpack');
 const path = require('path');
 module.exports = {
+    devtool: 'source-map',
+    entry: {
+        "index": [
+            'babel-regenerator-runtime',
+            'webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000&reload=true', //note that it reloads the page if hot module reloading fails.
+            './src/main'
+        ]
+    },
+    target: 'web',
+    output: {
+        path: path.resolve(__dirname, "public"),
+        publicPath: "/assets",
+        filename: "[name].bundle.js"
+    },
+    devServer: {
+        inline: true
+    },
+    plugins: [
+        new webpack.HotModuleReplacementPlugin(),
+        new webpack.NoErrorsPlugin()
+    ],
     module: {
         loaders: [
             {
@@ -9,31 +30,13 @@ module.exports = {
                     /(node_modules)/,
                 ],
                 query: {
-                    presets: ['es2015','react'],
+                    presets: ['es2015', 'react'],
                     plugins: ['transform-object-rest-spread']
                 }
             }
         ]
     },
-    plugins: [
-        new webpack.HotModuleReplacementPlugin(),
-        new webpack.NoErrorsPlugin()
-    ],
-    entry: {
-        "index": [
-            'babel-regenerator-runtime',
-            'webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000&reload=true',
-            './src/main'
-        ]
-    },
-    output: {
-        path: path.resolve(__dirname, "public"),
-        publicPath: "/assets",
-        filename: "[name].bundle.js"
-    },
     resolve: {
         extensions: ['', '.js', '.jsx'],
-    },
-    devServer: { inline: true },
-    devtool: 'source-map'
+    }
 };

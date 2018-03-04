@@ -19,5 +19,6 @@ const simulateCreateMessage = (user) => {
 };
 
 export function simulateActivity(userID) {
+    console.info(`Simulating receive message`);
     setInterval(simulateCreateMessage, interval, userID);
 }
